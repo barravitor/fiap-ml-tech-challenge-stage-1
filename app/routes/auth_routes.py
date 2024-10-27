@@ -2,8 +2,8 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 import app.schemas.index_schemas as schemas
-import app.models.index_models as models
-from app.database import SessionLocal
+import app.db.models.index_models as models
+from app.db.db import SessionLocal
 from datetime import datetime, timezone
 from passlib.context import CryptContext
 from app.helpers.jwt_helpers import create_jwt_token
