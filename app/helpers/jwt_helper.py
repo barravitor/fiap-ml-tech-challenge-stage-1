@@ -30,7 +30,7 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
     if payload is None:
         raise HTTPException(
             status_code=401,
-            detail="Invalid Token",
+            detail="Unauthorized: Invalid Token",
             headers={"WWW-Authenticate": "Bearer"},
         )
     return payload

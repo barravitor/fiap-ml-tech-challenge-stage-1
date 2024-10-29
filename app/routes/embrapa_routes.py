@@ -37,8 +37,39 @@ def save_data_on_cache(data, directory_path, file_name):
     df = pd.DataFrame(data[0:], columns=data[0])
     df.to_csv(f"{directory_path}/{file_name}", index=False, header=True, sep=',', encoding='utf-8')
 
-@embrapa_router.get("/productions", response_class=StreamingResponse)
+@embrapa_router.get("/productions", response_class=StreamingResponse,
+    responses={
+        200: {
+            "description": "CSV file with production data.",
+            "content": {
+                "text/csv": {
+                    "example": "category,date\nVinhos de mesa,1970-12-21\nVinhos de mesa,1971-12-21\n"
+                }
+            }
+        },
+        401: {
+            "description": "Unauthorized",
+            "content": {
+                "application/json": {
+                    "example": { "detail": "Unauthorized: Invalid Token" }
+                }
+            }
+        },
+        422: {
+            "description": "Unprocessable Entity. Validation error in provided filters."
+        },
+    }
+)
 async def get_productions(filters: FiltersSchema = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
+    """
+    Retrieve production data in CSV format.
+
+    - **Return**: A CSV file with production data.
+
+    ## Possible Errors:
+    - **401 Unauthorized**: If the JWT token is not provided or is invalid.
+    - **422 Unprocessable Entity**: If the provided filter data does not pass validation.
+    """
     try:
         file_name = CACHED_TAB_PRODUCTIONS_FILE_NAME
 
@@ -70,8 +101,39 @@ async def get_productions(filters: FiltersSchema = Depends(), current_user: dict
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error to find data: {str(e)}")
 
-@embrapa_router.get("/processingn", response_class=StreamingResponse)
+@embrapa_router.get("/processingn", response_class=StreamingResponse,
+    responses={
+        200: {
+            "description": "CSV file with processingn data.",
+            "content": {
+                "text/csv": {
+                    "example": "category,date\nVinhos de mesa,1970-12-21\nVinhos de mesa,1971-12-21\n"
+                }
+            }
+        },
+        401: {
+            "description": "Unauthorized",
+            "content": {
+                "application/json": {
+                    "example": { "detail": "Unauthorized: Invalid Token" }
+                }
+            }
+        },
+        422: {
+            "description": "Unprocessable Entity. Validation error in provided filters."
+        },
+    }
+)
 async def get_processingn(filters: FiltersSchema = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
+    """
+    Retrieve processingn data in CSV format.
+
+    - **Return**: A CSV file with processingn data.
+
+    ## Possible Errors:
+    - **401 Unauthorized**: If the JWT token is not provided or is invalid.
+    - **422 Unprocessable Entity**: If the provided filter data does not pass validation.
+    """
     try:
         file_name = CACHED_TAB_PROCESSINGN_FILE_NAME
 
@@ -103,8 +165,39 @@ async def get_processingn(filters: FiltersSchema = Depends(), current_user: dict
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error to find data: {str(e)}")
 
-@embrapa_router.get("/commercialization", response_class=StreamingResponse)
+@embrapa_router.get("/commercialization", response_class=StreamingResponse,
+    responses={
+        200: {
+            "description": "CSV file with commercialization data.",
+            "content": {
+                "text/csv": {
+                    "example": "category,date\nVinhos de mesa,1970-12-21\nVinhos de mesa,1971-12-21\n"
+                }
+            }
+        },
+        401: {
+            "description": "Unauthorized",
+            "content": {
+                "application/json": {
+                    "example": { "detail": "Unauthorized: Invalid Token" }
+                }
+            }
+        },
+        422: {
+            "description": "Unprocessable Entity. Validation error in provided filters."
+        },
+    }
+)
 async def get_commercialization(filters: FiltersSchema = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
+    """
+    Retrieve commercialization data in CSV format.
+
+    - **Return**: A CSV file with commercialization data.
+
+    ## Possible Errors:
+    - **401 Unauthorized**: If the JWT token is not provided or is invalid.
+    - **422 Unprocessable Entity**: If the provided filter data does not pass validation.
+    """
     try:
         file_name = CACHED_TAB_COMMERCIALIZATION_FILE_NAME
 
@@ -136,8 +229,39 @@ async def get_commercialization(filters: FiltersSchema = Depends(), current_user
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error to find data: {str(e)}")
     
-@embrapa_router.get("/importation", response_class=StreamingResponse)
+@embrapa_router.get("/importation", response_class=StreamingResponse,
+    responses={
+        200: {
+            "description": "CSV file with importation data.",
+            "content": {
+                "text/csv": {
+                    "example": "category,date\nVinhos de mesa,1970-12-21\nVinhos de mesa,1971-12-21\n"
+                }
+            }
+        },
+        401: {
+            "description": "Unauthorized",
+            "content": {
+                "application/json": {
+                    "example": { "detail": "Unauthorized: Invalid Token" }
+                }
+            }
+        },
+        422: {
+            "description": "Unprocessable Entity. Validation error in provided filters."
+        },
+    }
+)
 async def get_importation(filters: FiltersSchema = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
+    """
+    Retrieve importation data in CSV format.
+
+    - **Return**: A CSV file with importation data.
+
+    ## Possible Errors:
+    - **401 Unauthorized**: If the JWT token is not provided or is invalid.
+    - **422 Unprocessable Entity**: If the provided filter data does not pass validation.
+    """
     try:
         file_name = CACHED_TAB_IMPORTATION_FILE_NAME
 
@@ -169,8 +293,39 @@ async def get_importation(filters: FiltersSchema = Depends(), current_user: dict
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error to find data: {str(e)}")
 
-@embrapa_router.get("/exportation", response_class=StreamingResponse)
+@embrapa_router.get("/exportation", response_class=StreamingResponse,
+    responses={
+        200: {
+            "description": "CSV file with exportation data.",
+            "content": {
+                "text/csv": {
+                    "example": "category,date\nVinhos de mesa,1970-12-21\nVinhos de mesa,1971-12-21\n"
+                }
+            }
+        },
+        401: {
+            "description": "Unauthorized",
+            "content": {
+                "application/json": {
+                    "example": { "detail": "Unauthorized: Invalid Token" }
+                }
+            }
+        },
+        422: {
+            "description": "Unprocessable Entity. Validation error in provided filters."
+        },
+    }
+)
 async def get_exportation(filters: FiltersSchema = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
+    """
+    Retrieve exportation data in CSV format.
+
+    - **Return**: A CSV file with exportation data.
+
+    ## Possible Errors:
+    - **401 Unauthorized**: If the JWT token is not provided or is invalid.
+    - **422 Unprocessable Entity**: If the provided filter data does not pass validation.
+    """
     try:
         file_name = CACHED_TAB_EXPORTATION_FILE_NAME
 
