@@ -2,7 +2,10 @@
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv(override=True)
+
+print(os.getenv("DATABASE_URL"))
+print(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 SECRET_KEY = os.getenv("SECRET_KEY")
