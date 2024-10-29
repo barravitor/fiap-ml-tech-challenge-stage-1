@@ -17,14 +17,14 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 
+### How to run the seeds
 ```sh
 python3 -m app.seeds.seed
 ```
 
 ### How to run
 ```sh
-uvicorn app.main:app --reload
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 ### How to finish the environment
