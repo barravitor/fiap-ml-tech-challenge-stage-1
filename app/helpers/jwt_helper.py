@@ -1,12 +1,9 @@
-# app/helpers/jwt_helpers.py
+# app/helpers/jwt_helper.py
 from datetime import datetime, timedelta, timezone
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-
-SECRET_KEY = "your_secret_key"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 3600
+from app.config import SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 

@@ -2,9 +2,9 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from ..db import Base
+from ..db import Base, create_table
 
-class User(Base):
+class UserModelDb(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, index=True, primary_key=True)
@@ -13,5 +13,4 @@ class User(Base):
     password = Column(String, index=False, nullable=False)
     created_at = Column(DateTime, index=False, nullable=False, default=lambda: datetime.now(datetime.timezone.utc))
 
-    def __repr__(self):
-        return f"<User(name={self.name}, email={self.email})>"
+create_table()

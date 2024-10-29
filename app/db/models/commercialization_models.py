@@ -1,10 +1,10 @@
-# app/models/production_models.py
+# app/models/commercialization_models.py
 from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
-from ..db import Base
+from ..db import Base, create_table
 
-class Production(Base):
-    __tablename__ = 'productions'
+class CommercializationModelDb(Base):
+    __tablename__ = 'commercialization'
 
     id = Column(Integer, index=True, primary_key=True)
     name = Column(String, index=False, nullable=False)
@@ -12,3 +12,5 @@ class Production(Base):
     amount_liters = Column(String, index=False, nullable=False)
     date = Column(DateTime, index=True, nullable=False)
     created_at = Column(DateTime, index=True, nullable=False, default=lambda: datetime.now(datetime.timezone.utc))
+
+create_table()

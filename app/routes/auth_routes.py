@@ -6,7 +6,7 @@ import app.db.models.index_models as models
 from app.db.db import SessionLocal
 from datetime import datetime, timezone
 from passlib.context import CryptContext
-from app.helpers.jwt_helpers import create_jwt_token
+from app.helpers.jwt_helper import create_jwt_token
 
 auth_router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

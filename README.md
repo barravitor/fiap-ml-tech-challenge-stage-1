@@ -17,6 +17,11 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+### 
+```sh
+python3 -m app.seeds.seed
+```
+
 ### How to run
 ```sh
 uvicorn app.main:app --reload
@@ -26,8 +31,6 @@ uvicorn app.main:app --reload
 ```sh
 deactivate
 ```
-
-
 
 ### How to update the dependency list if needed
 ```sh
