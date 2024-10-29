@@ -2,7 +2,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from ..db import Base, create_table
+from ..db import Base
 
 class ScrapeStatusModelDb(Base):
     __tablename__ = 'scrape_status'
@@ -25,5 +25,3 @@ class ScrapeStatusModelDb(Base):
             "updated_at": self.updated_at,
             "created_at": self.created_at
         }
-
-create_table()

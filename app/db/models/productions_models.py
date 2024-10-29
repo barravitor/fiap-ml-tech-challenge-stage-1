@@ -1,7 +1,7 @@
 # app/models/production_models.py
 from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
-from ..db import Base, create_table
+from ..db import Base
 
 class ProductionsModelDb(Base):
     __tablename__ = 'productions'
@@ -22,5 +22,3 @@ class ProductionsModelDb(Base):
             "date": self.date,
             "created_at": self.created_at
         }
-
-create_table()

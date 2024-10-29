@@ -1,7 +1,7 @@
 # app/models/importation_models.py
 from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
-from ..db import Base, create_table
+from ..db import Base
 
 class ImportationModelDb(Base):
     __tablename__ = 'importation'
@@ -24,5 +24,3 @@ class ImportationModelDb(Base):
             "date": self.date,
             "created_at": self.created_at
         }
-
-create_table()

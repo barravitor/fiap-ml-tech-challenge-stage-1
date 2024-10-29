@@ -2,7 +2,7 @@
 from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from ..db import Base, create_table
+from ..db import Base
 
 class UserModelDb(Base):
     __tablename__ = 'users'
@@ -21,5 +21,3 @@ class UserModelDb(Base):
             "password": self.password,
             "created_at": self.created_at
         }
-
-create_table()

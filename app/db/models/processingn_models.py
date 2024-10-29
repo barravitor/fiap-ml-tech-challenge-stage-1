@@ -1,7 +1,7 @@
 # app/models/processingn_models.py
 from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
-from ..db import Base, create_table
+from ..db import Base
 
 class ProcessingnModelDb(Base):
     __tablename__ = 'processingn'
@@ -22,5 +22,3 @@ class ProcessingnModelDb(Base):
             "date": self.date,
             "created_at": self.created_at
         }
-
-create_table()

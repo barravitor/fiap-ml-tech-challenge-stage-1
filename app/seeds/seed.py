@@ -1,9 +1,11 @@
 from datetime import datetime
-from ..db.db import SessionLocal 
+from ..db.db import SessionLocal, create_table
 from ..db.models.index_models import ScrapeStatusModelDb
 
 def seed_db():
     db = SessionLocal()
+
+    create_table()
 
     db.query(ScrapeStatusModelDb).delete()
     db.commit()
