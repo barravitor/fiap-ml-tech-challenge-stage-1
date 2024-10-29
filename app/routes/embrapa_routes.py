@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 import httpx
 from app.helpers.jwt_helper import get_current_user
-from app.schemas.index_schemas import Filters
+from app.schemas.index_schemas import FiltersSchema
 from sqlalchemy.orm import Session
 import pandas as pd
 from app.db.db import SessionLocal
@@ -16,7 +16,7 @@ def get_session_local():
 
 embrapa_router = APIRouter()
 
-def get_data_filtered(df, filters: Filters):
+def get_data_filtered(df, filters: FiltersSchema):
     df['date'] = pd.to_datetime(df['date'])
 
     if filters.category:
@@ -31,7 +31,7 @@ def get_data_filtered(df, filters: Filters):
     return df
 
 @embrapa_router.get("/productions", response_class=StreamingResponse)
-async def get_productions(filters: Filters = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
+async def get_productions(filters: FiltersSchema = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
     try:
         file_name = CACHED_TAB_PRODUCTIONS_FILE_NAME
 
@@ -65,7 +65,7 @@ async def get_productions(filters: Filters = Depends(), current_user: dict = Dep
         raise HTTPException(status_code=500, detail=f"Error to find data: {str(e)}")
 
 @embrapa_router.get("/processingn", response_class=StreamingResponse)
-async def get_processingn(filters: Filters = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
+async def get_processingn(filters: FiltersSchema = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
     try:
         file_name = CACHED_TAB_PROCESSINGN_FILE_NAME
 
@@ -99,7 +99,7 @@ async def get_processingn(filters: Filters = Depends(), current_user: dict = Dep
         raise HTTPException(status_code=500, detail=f"Error to find data: {str(e)}")
 
 @embrapa_router.get("/commercialization", response_class=StreamingResponse)
-async def get_commercialization(filters: Filters = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
+async def get_commercialization(filters: FiltersSchema = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
     try:
         file_name = CACHED_TAB_COMMERCIALIZATION_FILE_NAME
 
@@ -133,7 +133,7 @@ async def get_commercialization(filters: Filters = Depends(), current_user: dict
         raise HTTPException(status_code=500, detail=f"Error to find data: {str(e)}")
     
 @embrapa_router.get("/importation", response_class=StreamingResponse)
-async def get_importation(filters: Filters = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
+async def get_importation(filters: FiltersSchema = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
     try:
         file_name = CACHED_TAB_IMPORTATION_FILE_NAME
 
@@ -167,7 +167,7 @@ async def get_importation(filters: Filters = Depends(), current_user: dict = Dep
         raise HTTPException(status_code=500, detail=f"Error to find data: {str(e)}")
     
 @embrapa_router.get("/exportation", response_class=StreamingResponse)
-async def get_exportation(filters: Filters = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
+async def get_exportation(filters: FiltersSchema = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
     try:
         file_name = CACHED_TAB_EXPORTATION_FILE_NAME
 

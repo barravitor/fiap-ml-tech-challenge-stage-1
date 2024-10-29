@@ -2,7 +2,7 @@ import datetime
 from pydantic import BaseModel, Field
 from typing import Optional
 
-class Filters(BaseModel):
+class FiltersSchema(BaseModel):
     category: Optional[str] = Field(None, description="Register category")
     min_year_date: Optional[str] = Field(None, description="Minimum year of register")
     max_year_date: Optional[str] = Field(None, description="Maximum year of register")

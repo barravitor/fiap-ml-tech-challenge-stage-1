@@ -169,6 +169,8 @@ def get_productions():
         data = run_scrape(key, tab, dynamic_fields, db=db)
 
         if data != None:
+            print("Update data on database...")
+            ProductionsService.delete_documents(db)
             ProductionsService.insert_many_documents(db, data)
 
         db.close()
@@ -190,6 +192,8 @@ def get_processingn():
         data = run_scrape(key, tab, dynamic_fields, db=db)
 
         if data != None:
+            print("Update data on database...")
+            ProcessingnService.delete_documents(db)
             ProcessingnService.insert_many_documents(db, data)
 
         db.close()
@@ -211,6 +215,8 @@ def get_commercialization():
         data = run_scrape(key, tab, dynamic_fields, db=db)
 
         if data != None:
+            print("Update data on database...")
+            CommercializationService.delete_documents(db)
             CommercializationService.insert_many_documents(db, data)
 
         db.close()
@@ -232,6 +238,8 @@ def get_importation():
         data = run_scrape(key, tab, dynamic_fields, db=db)
 
         if data != None:
+            print("Update data on database...")
+            ImportationService.delete_documents(db)
             ImportationService.insert_many_documents(db, data)
 
         db.close()
@@ -253,6 +261,8 @@ def get_exportation():
         data = run_scrape(key, tab, dynamic_fields, db=db)
 
         if data != None:
+            print("Update data on database...")
+            ExportationService.delete_documents(db)
             ExportationService.insert_many_documents(db, data)
 
         db.close()
