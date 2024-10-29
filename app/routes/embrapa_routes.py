@@ -1,5 +1,6 @@
 # app/routes/embrapa_routes.py
 import io
+import os
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 import httpx
@@ -30,6 +31,12 @@ def get_data_filtered(df, filters: FiltersSchema):
 
     return df
 
+def save_data_on_cache(data, directory_path, file_name):
+    os.makedirs(directory_path, exist_ok=True)
+
+    df = pd.DataFrame(data[0:], columns=data[0])
+    df.to_csv(f"{directory_path}/{file_name}", index=False, header=True, sep=',', encoding='utf-8')
+
 @embrapa_router.get("/productions", response_class=StreamingResponse)
 async def get_productions(filters: FiltersSchema = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
     try:
@@ -42,8 +49,7 @@ async def get_productions(filters: FiltersSchema = Depends(), current_user: dict
                 print("ERROR")
                 return
 
-            df = pd.DataFrame(data[0:], columns=data[0])
-            df.to_csv(f"./tmp/{file_name}", index=False, header=True, sep=',', encoding='utf-8')
+            save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
         df = pd.read_csv(f"./tmp/{file_name}")
 
@@ -76,8 +82,7 @@ async def get_processingn(filters: FiltersSchema = Depends(), current_user: dict
                 print("ERROR")
                 return
 
-            df = pd.DataFrame(data[0:], columns=data[0])
-            df.to_csv(f"./tmp/{file_name}", index=False, header=True, sep=',', encoding='utf-8')
+            save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
         df = pd.read_csv(f"./tmp/{file_name}")
 
@@ -110,8 +115,7 @@ async def get_commercialization(filters: FiltersSchema = Depends(), current_user
                 print("ERROR")
                 return
 
-            df = pd.DataFrame(data[0:], columns=data[0])
-            df.to_csv(f"./tmp/{file_name}", index=False, header=True, sep=',', encoding='utf-8')
+            save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
         df = pd.read_csv(f"./tmp/{file_name}")
 
@@ -144,8 +148,7 @@ async def get_importation(filters: FiltersSchema = Depends(), current_user: dict
                 print("ERROR")
                 return
 
-            df = pd.DataFrame(data[0:], columns=data[0])
-            df.to_csv(f"./tmp/{file_name}", index=False, header=True, sep=',', encoding='utf-8')
+            save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
         df = pd.read_csv(f"./tmp/{file_name}")
 
@@ -165,7 +168,7 @@ async def get_importation(filters: FiltersSchema = Depends(), current_user: dict
         raise HTTPException(status_code=exc.response.status_code, detail=str(exc))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error to find data: {str(e)}")
-    
+
 @embrapa_router.get("/exportation", response_class=StreamingResponse)
 async def get_exportation(filters: FiltersSchema = Depends(), current_user: dict = Depends(get_current_user), db: Session = Depends(get_session_local)):
     try:
@@ -177,9 +180,8 @@ async def get_exportation(filters: FiltersSchema = Depends(), current_user: dict
             if not data:
                 print("ERROR")
                 return
-
-            df = pd.DataFrame(data[0:], columns=data[0])
-            df.to_csv(f"./tmp/{file_name}", index=False, header=True, sep=',', encoding='utf-8')
+            
+            save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
         df = pd.read_csv(f"./tmp/{file_name}")
 

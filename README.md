@@ -1,43 +1,46 @@
 # FIAP ML API | Embrapa
 
-## API to return Embrapa data
+API to return Embrapa data from the website [link](http://vitibrasil.cnpuv.embrapa.br/index.php)
 
-### How to create the environment
-```sh
-python3 -m venv .venv
-```
+## Índice
 
-### How to start the environment
-```sh
-source .venv/bin/activate
-```
+- [Introduction](#introduction)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation and run](#installation-and-run)
 
-### How to install the necessary packages
-```sh
-pip install -r requirements.txt
-```
+## Introduction
 
-### How to run the seeds
-```sh
-python3 -m app.seeds.seed
-```
+Project to return Embrapa data from the website [link](http://vitibrasil.cnpuv.embrapa.br/index.php)
 
-### How to run in dev mode
-```sh
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-```
+## Features
 
-### How to run in production mode
-```sh
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
-```
+- **Web Scraping**: It uses the robust `Selenium` library to navigate and extract data from the website, ensuring that the information collected is accurate and up-to-date.
+  
+- **Database**: The extracted data is stored in a `PostgreSQL` database, allowing for fast and efficient queries.
 
-### How to finish the environment
-```sh
-deactivate
-```
+- **API RESTful**: Implements an API that exposes several endpoints, allowing users and external applications to access and query wine information programmatically. Some of the endpoints include:
+  - `GET /embrapa/importation`: Retrieve a list of available import data.
+  - `GET /embrapa/exportation`: Retrieve a list of available export data..
+  - `GET /embrapa/commercialization`: Retrieve a list of available trading data..
 
-### How to update the dependency list if needed
-```sh
-pip freeze > requirements.txt
+Read API Documentation [link](https://fiap-ml-tech-challenge-stage-1-production.up.railway.app/redoc)
+  
+## Technologies Used
+
+- **Python**: The project's main language, chosen for its rich library for data analysis.
+- **Selenium**: Library used for extracting HTML data and analyzing the structure of web pages.
+- **PostgreSQL**: Database management system, ideal for storing collected data.
+- **FastAPI**: FastAPI is a modern, fast (high-performance), web framework for building APIs with Python.
+
+## Installation and run
+
+Instructions on how to install and run the project.
+
+```bash
+python3 -m venv .venv # Run to create the environment
+source .venv/bin/activate # Run to start the environment
+pip install -r requirements.txt # Run to install the necessary packages
+python3 -m app.seeds.seed # Run to start database local seeds
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload # Run to run in dev mode
 ```
