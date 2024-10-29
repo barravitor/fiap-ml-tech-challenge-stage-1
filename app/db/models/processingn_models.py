@@ -13,4 +13,14 @@ class ProcessingnModelDb(Base):
     date = Column(DateTime, index=True, nullable=False)
     created_at = Column(DateTime, index=True, nullable=False, default=lambda: datetime.now(datetime.timezone.utc))
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "category": self.category,
+            "amount_kg": self.amount_kg,
+            "date": self.date,
+            "created_at": self.created_at
+        }
+
 create_table()

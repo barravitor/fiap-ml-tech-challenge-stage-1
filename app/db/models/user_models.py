@@ -13,4 +13,13 @@ class UserModelDb(Base):
     password = Column(String, index=False, nullable=False)
     created_at = Column(DateTime, index=False, nullable=False, default=lambda: datetime.now(datetime.timezone.utc))
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "password": self.password,
+            "created_at": self.created_at
+        }
+
 create_table()

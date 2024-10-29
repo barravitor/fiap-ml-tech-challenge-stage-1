@@ -1,4 +1,5 @@
 # app/services/selenium_script.py
+import ast
 from datetime import datetime
 from requests import Session
 from selenium import webdriver
@@ -18,7 +19,7 @@ from .exportation_service import ExportationService
 from .importation_service import ImportationService
 from .scrapre_status_service import ScrapeStatusService
 from app.db.db import SessionLocal
-from app.config import EXTERNAL_URL, MAX_YEAR_DATE, PAGE_LOADING_WAITING_TIME_IN_SECONDS, CACHED_TAB_PRODUCTIONS_FILE_NAME, CACHED_TAB_PROCESSINGN_FILE_NAME, CACHED_TAB_COMMERCIALIZATION_FILE_NAME, CACHED_TAB_IMPORTATION_FILE_NAME, CACHED_TAB_EXPORTATION_FILE_NAME, PAGE_MAX_RETRY, PAGE_RETRY_DELAY_TIME_IN_SECONDS
+from app.config import EXTERNAL_URL, SELENIUM_DRIVE_ARGS, MAX_YEAR_DATE, PAGE_LOADING_WAITING_TIME_IN_SECONDS, CACHED_TAB_PRODUCTIONS_FILE_NAME, CACHED_TAB_PROCESSINGN_FILE_NAME, CACHED_TAB_COMMERCIALIZATION_FILE_NAME, CACHED_TAB_IMPORTATION_FILE_NAME, CACHED_TAB_EXPORTATION_FILE_NAME, PAGE_MAX_RETRY, PAGE_RETRY_DELAY_TIME_IN_SECONDS
 
 # Configuração manual para criar e fechar a sessão
 def get_session_local():
@@ -31,9 +32,14 @@ def get_session_local():
 def get_selenium_drive():
     options = webdriver.ChromeOptions()
     options.page_load_strategy = 'eager'
-    # options.add_argument("--no-sandbox")
-    # options.add_argument("--disable-dev-shm-usage")
-    # options.add_argument("--headless")
+
+    try:
+        args = ast.literal_eval(SELENIUM_DRIVE_ARGS)
+    except:
+        args = []
+
+    for arg in args:
+        options.add_argument(arg)
 
     return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
@@ -133,7 +139,7 @@ def get_generic_tables(tab, dynamic_fields, startingYear = 1970):
 def run_scrape(name: str, tab, dynamic_fields, db: Session):
     scrape = ScrapeStatusService.get_document_by_name(db=db, name=name)
 
-    if not scrape.running:
+    if scrape.running:
         return None
 
     ScrapeStatusService.start_scrape(db=db, name=name)

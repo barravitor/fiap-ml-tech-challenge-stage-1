@@ -15,4 +15,15 @@ class ScrapeStatusModelDb(Base):
     updated_at = Column(DateTime, index=False, nullable=True)
     created_at = Column(DateTime, index=False, nullable=False, default=lambda: datetime.now(datetime.timezone.utc))
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "running": self.running,
+            "start_date": self.start_date,
+            "end_date": self.end_date,
+            "updated_at": self.updated_at,
+            "created_at": self.created_at
+        }
+
 create_table()

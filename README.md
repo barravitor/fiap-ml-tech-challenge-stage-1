@@ -22,9 +22,14 @@ pip install -r requirements.txt
 python3 -m app.seeds.seed
 ```
 
-### How to run
+### How to run in dev mode
 ```sh
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+### How to run in production mode
+```sh
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
 ```
 
 ### How to finish the environment
