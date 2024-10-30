@@ -1,7 +1,6 @@
 # app/models/user_models.py
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
-from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
 from ..db import Base
 
 class ScrapeStatusModelDb(Base):
@@ -13,7 +12,7 @@ class ScrapeStatusModelDb(Base):
     start_date = Column(DateTime, index=False, nullable=True)
     end_date = Column(DateTime, index=False, nullable=True)
     updated_at = Column(DateTime, index=False, nullable=True)
-    created_at = Column(DateTime, index=False, nullable=False, default=lambda: datetime.now(datetime.timezone.utc))
+    created_at = Column(DateTime, index=False, nullable=False, default=lambda: datetime.now(timezone.utc))
 
     def to_dict(self):
         return {

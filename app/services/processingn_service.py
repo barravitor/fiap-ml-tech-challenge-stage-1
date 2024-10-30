@@ -8,8 +8,11 @@ class ProcessingnService:
 
     @staticmethod
     def insert_many_documents(db: Session, documents):
+        if not len(documents):
+            return
+
         return ProcessingnRepository.insert_many_documents(db, documents)
     
     @staticmethod
     def delete_documents(db: Session):
-        return ProcessingnRepository.get_documents(db)
+        return ProcessingnRepository.delete_documents(db)

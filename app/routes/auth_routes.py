@@ -87,7 +87,7 @@ def register(user: UserRegisterSchema, db: Session = Depends(get_session_local))
     db.commit()
     db.refresh(new_user)
 
-    access_token = create_jwt_token(data={"sub": user.email, "expires_delta": datetime.utcnow().timestamp() + 3600 })
+    access_token = create_jwt_token(data={"sub": user.email, "expires_delta": datetime.now(timezone.utc).timestamp() + 3600 })
     return {"access_token": access_token, "token_type": "bearer"}
 
 @auth_router.post("/login", response_model=TokenSchema,
@@ -135,5 +135,5 @@ def login(user: UserLoginSchema, db: Session = Depends(get_session_local)):
     if db_user is None or not pwd_context.verify(user.password, db_user.password):
         raise HTTPException(status_code=400, detail="Incorrect email or password")
         
-    access_token = create_jwt_token(data={ "sub": db_user.email, "expires_delta": datetime.utcnow().timestamp() + 3600 })
+    access_token = create_jwt_token(data={ "sub": db_user.email, "expires_delta": datetime.now(timezone.utc).timestamp() + 3600 })
     return {"access_token": access_token, "token_type": "bearer"}

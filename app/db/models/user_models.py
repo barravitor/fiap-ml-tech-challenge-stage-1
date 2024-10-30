@@ -1,7 +1,6 @@
 # app/models/user_models.py
 from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
 from ..db import Base
 
 class UserModelDb(Base):
@@ -11,7 +10,7 @@ class UserModelDb(Base):
     name = Column(String, index=False, nullable=False)
     email = Column(String, index=True, nullable=False, unique=True)
     password = Column(String, index=False, nullable=False)
-    created_at = Column(DateTime, index=False, nullable=False, default=lambda: datetime.now(datetime.timezone.utc))
+    created_at = Column(DateTime, index=False, nullable=False, default=lambda: datetime.now(timezone.utc))
 
     def to_dict(self):
         return {

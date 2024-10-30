@@ -51,9 +51,25 @@ def save_data_on_cache(data, directory_path, file_name):
             "description": "Unauthorized",
             "content": {
                 "application/json": {
-                    "example": { "detail": "Unauthorized: Invalid Token" }
+                    "examples": {
+                        "invalid_token": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Unauthorized: Invalid Token"
+                            }
+                        },
+                        "not_authenticated": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Not authenticated"
+                            }
+                        }
+                    }
                 }
             }
+        },
+        404: {
+            "description": "Data not found."
         },
         422: {
             "description": "Unprocessable Entity. Validation error in provided filters."
@@ -77,8 +93,7 @@ async def get_productions(filters: FiltersSchema = Depends(), current_user: dict
             data = ProductionsService.get_documents(db)
 
             if not data:
-                print("ERROR")
-                return
+                raise HTTPException(status_code=404, detail="Data not found.")
 
             save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
@@ -115,9 +130,25 @@ async def get_productions(filters: FiltersSchema = Depends(), current_user: dict
             "description": "Unauthorized",
             "content": {
                 "application/json": {
-                    "example": { "detail": "Unauthorized: Invalid Token" }
+                    "examples": {
+                        "invalid_token": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Unauthorized: Invalid Token"
+                            }
+                        },
+                        "not_authenticated": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Not authenticated"
+                            }
+                        }
+                    }
                 }
             }
+        },
+        404: {
+            "description": "Data not found."
         },
         422: {
             "description": "Unprocessable Entity. Validation error in provided filters."
@@ -141,8 +172,7 @@ async def get_processingn(filters: FiltersSchema = Depends(), current_user: dict
             data = ProcessingnService.get_documents(db)
 
             if not data:
-                print("ERROR")
-                return
+                raise HTTPException(status_code=404, detail="Data not found.")
 
             save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
@@ -179,9 +209,25 @@ async def get_processingn(filters: FiltersSchema = Depends(), current_user: dict
             "description": "Unauthorized",
             "content": {
                 "application/json": {
-                    "example": { "detail": "Unauthorized: Invalid Token" }
+                    "examples": {
+                        "invalid_token": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Unauthorized: Invalid Token"
+                            }
+                        },
+                        "not_authenticated": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Not authenticated"
+                            }
+                        }
+                    }
                 }
             }
+        },
+        404: {
+            "description": "Data not found."
         },
         422: {
             "description": "Unprocessable Entity. Validation error in provided filters."
@@ -205,8 +251,7 @@ async def get_commercialization(filters: FiltersSchema = Depends(), current_user
             data = CommercializationService.get_documents(db)
 
             if not data:
-                print("ERROR")
-                return
+                raise HTTPException(status_code=404, detail="Data not found.")
 
             save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
@@ -243,9 +288,25 @@ async def get_commercialization(filters: FiltersSchema = Depends(), current_user
             "description": "Unauthorized",
             "content": {
                 "application/json": {
-                    "example": { "detail": "Unauthorized: Invalid Token" }
+                    "examples": {
+                        "invalid_token": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Unauthorized: Invalid Token"
+                            }
+                        },
+                        "not_authenticated": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Not authenticated"
+                            }
+                        }
+                    }
                 }
             }
+        },
+        404: {
+            "description": "Data not found."
         },
         422: {
             "description": "Unprocessable Entity. Validation error in provided filters."
@@ -269,8 +330,7 @@ async def get_importation(filters: FiltersSchema = Depends(), current_user: dict
             data = ImportationService.get_documents(db)
 
             if not data:
-                print("ERROR")
-                return
+                raise HTTPException(status_code=404, detail="Data not found.")
 
             save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
@@ -307,9 +367,25 @@ async def get_importation(filters: FiltersSchema = Depends(), current_user: dict
             "description": "Unauthorized",
             "content": {
                 "application/json": {
-                    "example": { "detail": "Unauthorized: Invalid Token" }
+                    "examples": {
+                        "invalid_token": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Unauthorized: Invalid Token"
+                            }
+                        },
+                        "not_authenticated": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Not authenticated"
+                            }
+                        }
+                    }
                 }
             }
+        },
+        404: {
+            "description": "Data not found."
         },
         422: {
             "description": "Unprocessable Entity. Validation error in provided filters."
@@ -333,8 +409,7 @@ async def get_exportation(filters: FiltersSchema = Depends(), current_user: dict
             data = ExportationService.get_documents(db)
 
             if not data:
-                print("ERROR")
-                return
+                raise HTTPException(status_code=404, detail="Data not found.")
             
             save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 

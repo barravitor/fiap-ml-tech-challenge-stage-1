@@ -8,8 +8,11 @@ class ExportationService:
 
     @staticmethod
     def insert_many_documents(db: Session, documents):
+        if not len(documents):
+            return
+
         return ExportationRepository.insert_many_documents(db, documents)
     
     @staticmethod
     def delete_documents(db: Session):
-        return ExportationRepository.get_documents(db)
+        return ExportationRepository.delete_documents(db)

@@ -5,6 +5,6 @@ from .scrape_routes import scrape_route
 
 router = APIRouter()
 
-router.include_router(auth_router, prefix="/auth")
-router.include_router(scrape_route, prefix="/scrape")
-router.include_router(embrapa_router, prefix="/embrapa")
+router.include_router(auth_router, prefix="/auth", tags=["Authentication"])
+router.include_router(embrapa_router, prefix="/embrapa", tags=["Embrapa"])
+router.include_router(scrape_route, prefix="/scrape", tags=["Scrape"])

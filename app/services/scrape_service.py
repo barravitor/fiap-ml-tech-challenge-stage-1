@@ -1,17 +1,16 @@
 # app/services/selenium_script.py
 import ast
-from datetime import datetime
+import time
+import pandas as pd
+from datetime import datetime, timezone
 from requests import Session
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import WebDriverException
-from selenium.webdriver.support import expected_conditions as EC
 from concurrent.futures import ThreadPoolExecutor
-import time
-import pandas as pd
+from .file_service import remove_file_by_path
 from .productions_service import ProductionsService
 from .processingn_service import ProcessingnService
 from .commercialization_service import CommercializationService
@@ -19,7 +18,7 @@ from .exportation_service import ExportationService
 from .importation_service import ImportationService
 from .scrapre_status_service import ScrapeStatusService
 from app.db.db import SessionLocal
-from app.config import EXTERNAL_URL, SELENIUM_DRIVE_ARGS, MAX_YEAR_DATE, PAGE_LOADING_WAITING_TIME_IN_SECONDS, CACHED_TAB_PRODUCTIONS_FILE_NAME, CACHED_TAB_PROCESSINGN_FILE_NAME, CACHED_TAB_COMMERCIALIZATION_FILE_NAME, CACHED_TAB_IMPORTATION_FILE_NAME, CACHED_TAB_EXPORTATION_FILE_NAME, PAGE_MAX_RETRY, PAGE_RETRY_DELAY_TIME_IN_SECONDS
+from app.config import EXTERNAL_URL, SELENIUM_DRIVE_ARGS, MAX_YEAR_DATE, PAGE_LOADING_WAITING_TIME_IN_SECONDS, PAGE_MAX_RETRY, PAGE_RETRY_DELAY_TIME_IN_SECONDS
 
 # Configuração manual para criar e fechar a sessão
 def get_session_local():
@@ -52,15 +51,21 @@ def get_generic_tables(tab, dynamic_fields, startingYear = 1970):
         print("Error: 'dynamic_fields = []' is required!")
         return
     
+    start_time = time.time()
+    current_time = datetime.now()
+    csv_file_path = f"./tmp/{tab}-{str(current_time.timestamp())}.csv"
+    
     attempt = 0
     year = startingYear
-    csv_itens = []
     last_category=""
 
     driver = get_selenium_drive()
 
     while (year <= int(MAX_YEAR_DATE)):
         sub_tab = 1
+        csv_itens = []
+
+        print(f"Processing data from tab {tab}, subtab {sub_tab}, of year {year}")
 
         if attempt >= int(PAGE_MAX_RETRY):
             break
@@ -105,7 +110,7 @@ def get_generic_tables(tab, dynamic_fields, startingYear = 1970):
                         csv_element_item = {
                             "category": current_category,
                             "date": datetime.strptime(f"{year}-12-21", "%Y-%m-%d").date(),
-                            "created_at": datetime.utcnow(),
+                            "created_at": datetime.now(timezone.utc),
                         }
 
                         for index, _ in enumerate(dynamic_fields):
@@ -113,7 +118,6 @@ def get_generic_tables(tab, dynamic_fields, startingYear = 1970):
 
                         csv_itens.append(csv_element_item)
 
-                
                 attempt = 0
                 if len(total_btn_on_page) == 0 or sub_tab >= len(total_btn_on_page):
                     break
@@ -127,6 +131,13 @@ def get_generic_tables(tab, dynamic_fields, startingYear = 1970):
                 print(f"Tentativa {attempt} falhou: {e}. Tentando novamente em {PAGE_RETRY_DELAY_TIME_IN_SECONDS} segundos...")
                 time.sleep(float(PAGE_RETRY_DELAY_TIME_IN_SECONDS))
 
+        df = pd.DataFrame(csv_itens)
+
+        if year == startingYear:
+            df.to_csv(csv_file_path, mode='w', index=False, header=True)
+        else:
+            df.to_csv(csv_file_path, mode='a', index=False, header=False)
+
         year += 1
 
     driver.quit()
@@ -134,7 +145,9 @@ def get_generic_tables(tab, dynamic_fields, startingYear = 1970):
     if attempt >= int(PAGE_MAX_RETRY):
         return
 
-    return csv_itens
+    print(f"Time to run: {(time.time() - start_time):.2f} in seconds")
+
+    return csv_file_path
 
 def run_scrape(name: str, tab, dynamic_fields, db: Session):
     scrape = ScrapeStatusService.get_document_by_name(db=db, name=name)
@@ -144,17 +157,14 @@ def run_scrape(name: str, tab, dynamic_fields, db: Session):
 
     ScrapeStatusService.start_scrape(db=db, name=name)
 
-    data = get_generic_tables(tab=tab, dynamic_fields=dynamic_fields)
+    csv_file_path = get_generic_tables(tab=tab, dynamic_fields=dynamic_fields)
 
-    if not data:
+    if not csv_file_path:
         return
-
-    df = pd.DataFrame(data[0:], columns=data[0])
-    df.to_csv(f"./tmp/{name}.csv", index=False, header=True, sep=',', encoding='utf-8')
 
     ScrapeStatusService.finished_scrape(db=db, name=name)
 
-    return data
+    return csv_file_path
 
 def get_productions():
     try:
@@ -166,12 +176,19 @@ def get_productions():
 
         db = next(get_session_local())
 
-        data = run_scrape(key, tab, dynamic_fields, db=db)
+        csv_file_path = run_scrape(key, tab, dynamic_fields, db=db)
 
-        if data != None:
+        if csv_file_path != None:
+            df = pd.read_csv(csv_file_path)
+
+            if df.empty:
+                print("Data not found")
+                return
+            
             print("Update data on database...")
             ProductionsService.delete_documents(db)
-            ProductionsService.insert_many_documents(db, data)
+            ProductionsService.insert_many_documents(db, df.to_dict(orient='records'))
+            remove_file_by_path(csv_file_path)
 
         db.close()
 
@@ -189,12 +206,19 @@ def get_processingn():
 
         db = next(get_session_local())
 
-        data = run_scrape(key, tab, dynamic_fields, db=db)
+        csv_file_path = run_scrape(key, tab, dynamic_fields, db=db)
 
-        if data != None:
+        if csv_file_path != None:
+            df = pd.read_csv(csv_file_path)
+
+            if df.empty:
+                print("Data not found")
+                return
+            
             print("Update data on database...")
             ProcessingnService.delete_documents(db)
-            ProcessingnService.insert_many_documents(db, data)
+            ProcessingnService.insert_many_documents(db, df.to_dict(orient='records'))
+            remove_file_by_path(csv_file_path)
 
         db.close()
 
@@ -212,12 +236,19 @@ def get_commercialization():
 
         db = next(get_session_local())
 
-        data = run_scrape(key, tab, dynamic_fields, db=db)
+        csv_file_path = run_scrape(key, tab, dynamic_fields, db=db)
 
-        if data != None:
+        if csv_file_path != None:
+            df = pd.read_csv(csv_file_path)
+
+            if df.empty:
+                print("Data not found")
+                return
+            
             print("Update data on database...")
             CommercializationService.delete_documents(db)
-            CommercializationService.insert_many_documents(db, data)
+            CommercializationService.insert_many_documents(db, df.to_dict(orient='records'))
+            remove_file_by_path(csv_file_path)
 
         db.close()
 
@@ -235,12 +266,19 @@ def get_importation():
 
         db = next(get_session_local())
 
-        data = run_scrape(key, tab, dynamic_fields, db=db)
+        csv_file_path = run_scrape(key, tab, dynamic_fields, db=db)
 
-        if data != None:
+        if csv_file_path != None:
+            df = pd.read_csv(csv_file_path)
+
+            if df.empty:
+                print("Data not found")
+                return
+            
             print("Update data on database...")
             ImportationService.delete_documents(db)
-            ImportationService.insert_many_documents(db, data)
+            ImportationService.insert_many_documents(db, df.to_dict(orient='records'))
+            remove_file_by_path(csv_file_path)
 
         db.close()
 
@@ -258,12 +296,19 @@ def get_exportation():
 
         db = next(get_session_local())
 
-        data = run_scrape(key, tab, dynamic_fields, db=db)
+        csv_file_path = run_scrape(key, tab, dynamic_fields, db=db)
 
-        if data != None:
+        if csv_file_path != None:
+            df = pd.read_csv(csv_file_path)
+
+            if df.empty:
+                print("Data not found")
+                return
+            
             print("Update data on database...")
             ExportationService.delete_documents(db)
-            ExportationService.insert_many_documents(db, data)
+            ExportationService.insert_many_documents(db, df.to_dict(orient='records'))
+            remove_file_by_path(csv_file_path)
 
         db.close()
 

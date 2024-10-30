@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, Optional
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
@@ -42,7 +42,7 @@ class ScrapeStatusRepository:
                 if value is not None:
                     setattr(document, field, value)
 
-            setattr(document, "updated_at", datetime.utcnow())
+            setattr(document, "updated_at", datetime.now(timezone.utc))
 
             db.commit()
         except Exception as e:

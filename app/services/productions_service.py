@@ -8,8 +8,11 @@ class ProductionsService:
 
     @staticmethod
     def insert_many_documents(db: Session, documents):
+        if not len(documents):
+            return
+
         return ProductionsRepository.insert_many_documents(db, documents)
     
     @staticmethod
     def delete_documents(db: Session):
-        return ProductionsRepository.get_documents(db)
+        return ProductionsRepository.delete_documents(db)

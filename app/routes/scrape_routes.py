@@ -35,7 +35,20 @@ scrape_route = APIRouter()
             "description": "Unauthorized",
             "content": {
                 "application/json": {
-                    "example": { "detail": "Unauthorized: Invalid Token" }
+                    "examples": {
+                        "invalid_token": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Unauthorized: Invalid Token"
+                            }
+                        },
+                        "not_authenticated": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Not authenticated"
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -76,7 +89,20 @@ async def get_status(current_user: dict = Depends(get_current_user), db: Session
             "description": "Unauthorized",
             "content": {
                 "application/json": {
-                    "example": { "detail": "Unauthorized: Invalid Token" }
+                    "examples": {
+                        "invalid_token": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Unauthorized: Invalid Token"
+                            }
+                        },
+                        "not_authenticated": {
+                            "summary": "Unauthorized",
+                            "value": {
+                                "detail": "Not authenticated"
+                            }
+                        }
+                    }
                 }
             }
         }

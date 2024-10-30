@@ -8,8 +8,11 @@ class CommercializationService:
 
     @staticmethod
     def insert_many_documents(db: Session, documents):
+        if not len(documents):
+            return
+
         return CommercializationRepository.insert_many_documents(db, documents)
     
     @staticmethod
     def delete_documents(db: Session):
-        return CommercializationRepository.get_documents(db)
+        return CommercializationRepository.delete_documents(db)
