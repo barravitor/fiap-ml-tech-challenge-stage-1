@@ -1,5 +1,6 @@
 # app/services/selenium_script.py
 import ast
+import asyncio
 import time
 import pandas as pd
 from datetime import datetime, timezone
@@ -10,7 +11,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException
 from concurrent.futures import ThreadPoolExecutor
-from .file_service import remove_file_by_path
+from .file_service import remove_file_by_path, check_if_file_exists, create_folder_does_not_exist
 from .productions_service import ProductionsService
 from .processingn_service import ProcessingnService
 from .commercialization_service import CommercializationService
@@ -18,7 +19,7 @@ from .exportation_service import ExportationService
 from .importation_service import ImportationService
 from .scrapre_status_service import ScrapeStatusService
 from app.db.db import SessionLocal
-from app.config import EXTERNAL_URL, SELENIUM_DRIVE_ARGS, MAX_YEAR_DATE, PAGE_LOADING_WAITING_TIME_IN_SECONDS, PAGE_MAX_RETRY, PAGE_RETRY_DELAY_TIME_IN_SECONDS
+from app.config import EXTERNAL_URL, SELENIUM_DRIVE_ARGS, MAX_YEAR_DATE, PAGE_LOADING_WAITING_TIME_IN_SECONDS, PAGE_MAX_RETRY, PAGE_RETRY_DELAY_TIME_IN_SECONDS, PRODUCTION
 
 # Configuração manual para criar e fechar a sessão
 def get_session_local():
@@ -54,7 +55,10 @@ def get_generic_tables(tab, dynamic_fields, startingYear = 1970):
     start_time = time.time()
     current_time = datetime.now()
     csv_file_path = f"./tmp/{tab}-{str(current_time.timestamp())}.csv"
-    
+
+    if not check_if_file_exists("./tmp"):
+        create_folder_does_not_exist("./tmp")
+
     attempt = 0
     year = startingYear
     last_category=""
@@ -316,10 +320,27 @@ def get_exportation():
     except Exception as e:
         print(f"Error to scrape data: {e}")
 
-def scrape_data():
-    with ThreadPoolExecutor() as executor:
-        executor.submit(get_productions)
-        executor.submit(get_commercialization)
-        executor.submit(get_processingn)
-        executor.submit(get_importation)
-        executor.submit(get_exportation)
+async def scrape_data():
+    print(PRODUCTION)
+    if not PRODUCTION:
+        with ThreadPoolExecutor() as executor:
+            loop = asyncio.get_event_loop()
+            futures = [
+                loop.run_in_executor(executor, get_productions),
+                loop.run_in_executor(executor, get_commercialization),
+                loop.run_in_executor(executor, get_processingn),
+                loop.run_in_executor(executor, get_importation),
+                loop.run_in_executor(executor, get_exportation),
+            ]
+
+            await asyncio.gather(*futures)
+    else:
+        await asyncio.to_thread(get_productions)
+        await asyncio.to_thread(get_commercialization)
+        await asyncio.to_thread(get_processingn)
+        await asyncio.to_thread(get_importation)
+        await asyncio.to_thread(get_exportation)
+
+def start_scrape():
+    asyncio.create_task(scrape_data())
+

@@ -4,8 +4,7 @@ import httpx
 from sqlalchemy.orm import Session
 from app.db.db import get_session_local
 from app.helpers.jwt_helper import get_current_user
-from app.services.index_service import scrape_data
-import threading
+from app.services.index_service import start_scrape
 from ..services.scrapre_status_service import ScrapeStatusService
 from app.schemas.scrape_schemas import StatusResponseSchema
 
@@ -114,6 +113,6 @@ async def get_rescrape(current_user: dict = Depends(get_current_user)):
     
     - **Return**: The scraping process has started. The data will be processed.
     """
-    threading.Thread(target=scrape_data).start()
+    start_scrape()
 
     return { "message": "The scraping process has started. The data will be processed." }
