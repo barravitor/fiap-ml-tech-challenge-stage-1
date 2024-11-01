@@ -7,6 +7,8 @@ from datetime import datetime, timezone
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from shared.services.index_service import ProductionsService, ProcessingnService, CommercializationService, ExportationService, ImportationService
 from shared.db.database import get_session_local
 from shared.config import EXTERNAL_URL, SELENIUM_DRIVE_ARGS, MAX_YEAR_DATE, PAGE_LOADING_WAITING_TIME_IN_SECONDS, PAGE_MAX_RETRY, PAGE_RETRY_DELAY_TIME_IN_SECONDS
@@ -24,8 +26,21 @@ async def get_selenium_drive():
     for arg in args:
         options.add_argument(arg)
 
+    process = await asyncio.create_subprocess_exec(
+        'google-chrome', '--version',
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE
+    )
+    
+    stdout, stderr = await process.communicate()
+
+    version = ""
+
+    if process.returncode == 0:
+        version = stdout.decode('utf-8').strip().split(" ")[-1]
+
     try:
-        driver = await asyncio.to_thread(webdriver.Chrome, options=options)
+        driver = await asyncio.to_thread(webdriver.Chrome, service=Service(ChromeDriverManager(driver_version=version).install()), options=options)
         return driver
     except Exception as e:
         print(f"Error creating Selenium driver: {e}")
