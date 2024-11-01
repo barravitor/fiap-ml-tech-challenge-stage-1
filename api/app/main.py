@@ -1,7 +1,7 @@
 # app/main.py
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from api.app.routes.index_routes import router
+from app.routes.index_routes import router
 from shared.db.database import create_table
 
 @asynccontextmanager

@@ -4,12 +4,14 @@
       "name": "api",
       "path": "./api",
       "start": "uvicorn app.main:app --host 0.0.0.0 --port 8000",
+      "install": "pip install -r ../requirements.txt",
       "dockerfile": "Dockerfile"
     },
     {
       "name": "scraping",
       "path": "./cron-jobs",
       "start": "PYTHONPATH=. python3 app/scraping.py",
+      "install": "pip install -r ../requirements.txt",
       "dockerfile": "Dockerfile",
       "schedule": "0 * * * *"
     }

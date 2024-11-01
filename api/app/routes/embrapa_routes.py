@@ -4,12 +4,12 @@ import os
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 import httpx
-from api.app.helpers.jwt_helper import get_current_user
-from api.app.schemas.index_schemas import FiltersSchema
+from app.helpers.jwt_helper import get_current_user
+from app.schemas.index_schemas import FiltersSchema
 from sqlalchemy.orm import Session
 import pandas as pd
 from shared.db.database import SessionLocal
-from api.app.services.index_service import check_if_file_exists
+from app.services.index_service import check_if_file_exists
 from shared.services.index_service import ProductionsService, ProcessingnService, ExportationService, CommercializationService, ImportationService
 from shared.config import CACHED_TAB_PRODUCTIONS_FILE_NAME, CACHED_TAB_PROCESSINGN_FILE_NAME, CACHED_TAB_COMMERCIALIZATION_FILE_NAME, CACHED_TAB_IMPORTATION_FILE_NAME, CACHED_TAB_EXPORTATION_FILE_NAME
 
