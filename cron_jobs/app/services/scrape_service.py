@@ -26,8 +26,21 @@ async def get_selenium_drive():
     for arg in args:
         options.add_argument(arg)
 
+    process = await asyncio.create_subprocess_exec(
+        'google-chrome', '--version',
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE
+    )
+    
+    stdout, stderr = await process.communicate()
+
+    version = ""
+
+    if process.returncode == 0:
+        version = stdout.decode('utf-8').strip().split(" ")[-1]
+
     try:
-        driver = await asyncio.to_thread(webdriver.Chrome, service=Service(ChromeDriverManager().install()), options=options)
+        driver = await asyncio.to_thread(webdriver.Chrome, service=Service(ChromeDriverManager(driver_version=version).install()), options=options)
         return driver
     except Exception as e:
         print(f"Error creating Selenium driver: {e}")
@@ -145,26 +158,26 @@ async def get_generic_tables(tab, dynamic_fields, startingYear=1970) -> pd.DataF
         return None
 
 async def get_data(key, tab, dynamic_fields, service):
-    df = None
+    data_frame = None
     try:
         with get_session_local() as db:
             print(f"Start get_{key} web scraping...")
 
-            df = await get_generic_tables(tab=tab, dynamic_fields=dynamic_fields)
+            data_frame = await get_generic_tables(tab=tab, dynamic_fields=dynamic_fields)
 
-            if df.empty:
+            if data_frame is None or data_frame.empty:
                 print("Data not found")
                 return
                 
             print(f"Update data on {key} database...")
             await asyncio.to_thread(service.delete_documents, db)
-            await asyncio.to_thread(service.insert_many_documents, db, df.to_dict(orient='records'))
+            await asyncio.to_thread(service.insert_many_documents, db, data_frame.to_dict(orient='records'))
 
             print(f"Finish get_{key} web scraping...")
     except Exception as e:
         print(f"Error to scrape get_{key} data: {e}")
     finally:
-        df = None
+        data_frame = None
 
 async def get_productions():
     await get_data(
