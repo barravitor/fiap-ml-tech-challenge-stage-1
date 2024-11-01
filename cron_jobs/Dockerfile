@@ -39,4 +39,4 @@ COPY ./cron_jobs/app /app/app
 
 COPY ../shared /app/shared
 
-CMD ["PYTHONPATH=.", "python3", "app/scraping.py"]
+CMD ["python3", "-m", "app.scraping"]

@@ -1,5 +1,5 @@
 import asyncio
-from cron_jobs.app.services.scrape_service import get_productions, get_processingn, get_commercialization, get_importation, get_exportation
+from .services.scrape_service import get_productions, get_processingn, get_commercialization, get_importation, get_exportation
 
 async def start_scrape():
     await asyncio.gather(

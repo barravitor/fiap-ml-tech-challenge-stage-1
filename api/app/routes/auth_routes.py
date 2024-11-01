@@ -1,12 +1,12 @@
 # app/routes/auth_routes.py
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from app.schemas.index_schemas import UserRegisterSchema, UserLoginSchema, TokenSchema
+from ..schemas.index_schemas import UserRegisterSchema, UserLoginSchema, TokenSchema
 from shared.db.models.index_models import UserModelDb
 from shared.db.database import get_session_local
 from datetime import datetime, timezone
 from passlib.context import CryptContext
-from app.helpers.jwt_helper import create_jwt_token
+from ..helpers.jwt_helper import create_jwt_token
 
 auth_router = APIRouter()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

@@ -41,5 +41,14 @@ Instructions on how to install and run the project.
 python3 -m venv .venv # Run to create the environment
 source .venv/bin/activate # Run to start the environment
 pip install -r requirements.txt # Run to install the necessary packages
-uvicorn api.app.main:app --host 0.0.0.0 --port 8000 --reload # Run to run in dev mode
+```
+
+Run the scrape script to populate database
+```bash
+python3 -m cron_jobs.app.scraping
+```
+
+Run the API to load embrapa data
+```bash
+uvicorn api.app.main:app --host 0.0.0.0 --port 8000 --reload # Run in dev mode
 ```

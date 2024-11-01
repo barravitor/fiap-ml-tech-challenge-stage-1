@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from app.routes.auth_routes import auth_router
-from app.routes.embrapa_routes import embrapa_router
+from ..routes.auth_routes import auth_router
+from ..routes.embrapa_routes import embrapa_router
 
 router = APIRouter()
 

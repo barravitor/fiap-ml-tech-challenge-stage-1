@@ -5,7 +5,7 @@
 		"dockerfilePath": "cron_jobs/Dockerfile"
 	},
 	"deploy": {
-		"startCommand": "PYTHONPATH=. python3 app/scraping.py",
+		"startCommand": "python3 -m app.scraping",
 		"numReplicas": 1,
 		"cronSchedule": "0 * * * *",
 		"sleepApplication": true
