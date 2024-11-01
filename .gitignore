@@ -1,5 +1,6 @@
 .venv
 __pycache__
+__init__.py
 # config.py
 tmp
 *.csv

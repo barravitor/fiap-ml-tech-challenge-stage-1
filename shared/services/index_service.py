@@ -1,0 +1,7 @@
+from shared.services.productions_service import ProductionsService
+from shared.services.processingn_service import ProcessingnService
+from shared.services.importation_service import ImportationService
+from shared.services.commercialization_service import CommercializationService
+from shared.services.exportation_service import ExportationService
+
+

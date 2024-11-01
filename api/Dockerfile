@@ -4,7 +4,9 @@ FROM python:3.10.12-slim
 
 WORKDIR /app
 
-COPY . /app
+COPY ./app /app/app
+COPY ../shared /app/shared
+COPY ../requirements.txt /app/requirements.txt
 
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
