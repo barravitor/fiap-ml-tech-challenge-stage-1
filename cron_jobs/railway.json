@@ -7,7 +7,7 @@
 	"deploy": {
 		"startCommand": "python3 -m app.scraping",
 		"numReplicas": 1,
-		"cronSchedule": "0 3 * * 6",
+		"cronSchedule": "0 2 * * 6",
 		"sleepApplication": true
 	}
 }
