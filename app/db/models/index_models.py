@@ -1,5 +1,4 @@
 from .user_models import UserModelDb
-from .scrape_status_models import ScrapeStatusModelDb
 from .commercialization_models import CommercializationModelDb
 from .exportation_models import ExportationModelDb
 from .importation_models import ImportationModelDb

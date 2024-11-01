@@ -1,4 +1,5 @@
 # app/database.py
+from contextlib import contextmanager
 from typing import Generator
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -16,6 +17,7 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+@contextmanager
 def get_session_local() -> Generator[Session, None, None]:
     db = SessionLocal()
     try:

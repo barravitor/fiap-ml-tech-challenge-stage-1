@@ -41,6 +41,5 @@ Instructions on how to install and run the project.
 python3 -m venv .venv # Run to create the environment
 source .venv/bin/activate # Run to start the environment
 pip install -r requirements.txt # Run to install the necessary packages
-python3 -m app.seeds.seed # Run to start database local seeds
 uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload # Run to run in dev mode
 ```

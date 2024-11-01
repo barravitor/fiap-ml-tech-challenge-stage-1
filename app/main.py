@@ -20,7 +20,6 @@ app = FastAPI(
 <ul>
     <li><b><a href="#tag/Authentication">Authentication</a></b>: Authentication user on the platform.</li>
     <li><b><a href="#tag/Embrapa">Embrapa</a></b>: Embrapa data.</li>
-    <li><b><a href="#tag/Scrape">Scrape</a></b>: Scraping Embrapa data.</li>
 </ul>
 <p>This API is intended to return Embrapa data taken from the official website: <a href="http://vitibrasil.cnpuv.embrapa.br/index.php" target="_blank">http://vitibrasil.cnpuv.embrapa.br/index.php</a></p>
 <p>An API for querying Embrapa data to train a non-profit machine learning algorithm</p>
@@ -33,9 +32,6 @@ app = FastAPI(
     }, {
         "name": "Embrapa",
         "description": "Operations related to Embrapa data."
-    }, {
-        "name": "Scrape",
-        "description": "Operations related to scraping Embrapa data."
     }]
 )
 
