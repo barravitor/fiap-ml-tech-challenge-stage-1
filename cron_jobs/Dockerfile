@@ -39,4 +39,4 @@ COPY ./cron_jobs/app /app/app
 
 COPY ../shared /app/shared
 
-CMD ["python3", "-m", "app.scraping"]
+CMD ["sh", "-c", "python3 -m app.scraping && tail -f /dev/null"]
