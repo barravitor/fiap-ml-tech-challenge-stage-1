@@ -1,7 +1,6 @@
 .venv
 __pycache__
-# config.py
 tmp
 *.csv
 .env
-ml-tech-test.db
+ml-tech-local-database.db
