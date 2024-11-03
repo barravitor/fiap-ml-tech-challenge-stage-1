@@ -35,7 +35,7 @@ python3 -m cron_jobs.app.scraping
 ```
 
 ## Flowchart
-<img src="./flowchart_scrape.png" style="background-color: #fff; padding: 4px">
+![Flowchart to scrape data](./flowchart_scrape.png)
 
 ### Conclusion
 

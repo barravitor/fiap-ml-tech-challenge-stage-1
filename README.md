@@ -9,6 +9,7 @@ API to return Embrapa data from the website [link](http://vitibrasil.cnpuv.embra
 - [Technologies Used](#technologies-used)
 - [Installation and run](#installation-and-run)
 - [Deployment Plan](#deployment-plan)
+- [Flowchart Documentation](#flowchart-documentation)
 - [Contribution](#contribution)
 - [License](#license)
 - [Contact](#contact)
@@ -138,6 +139,9 @@ This is the step by step guide to deploying the API on Railway.
   - Add '/redoc' on url to read API documentation
 
 </details>
+
+## Flowchart Documentation
+Project flowchart, covering everything from data ingestion to feeding the machine learning model. Read the full Flowchart documentation: [docs/FlowchartDocumentation.md](docs/FlowchartDocumentation.md)
 
 ## Contribution
 

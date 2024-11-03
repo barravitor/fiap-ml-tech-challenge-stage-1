@@ -97,4 +97,4 @@ The API uses standard HTTP status codes to indicate the success or failure of re
 To use the API, make sure to include an Authorization header with the bearer token received upon successful login or registration in requests to protected endpoints.
 
 ## Flowchart
-<img src="./flowchart_api.png" style="background-color: #fff; padding: 4px">
+![Flowchart api](./flowchart_api.png)
