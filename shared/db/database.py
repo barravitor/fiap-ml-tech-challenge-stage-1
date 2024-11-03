@@ -17,7 +17,6 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-@contextmanager
 def get_session_local() -> Generator[Session, None, None]:
     db = SessionLocal()
     try:

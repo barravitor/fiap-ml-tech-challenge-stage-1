@@ -46,6 +46,10 @@ Project to return Embrapa data from the website [link](http://vitibrasil.cnpuv.e
 
 Instructions on how to install and run the project.
 
+Create a .env file in the project root following the example in the .env-example file
+
+Required python version: 3.10.12
+
 ```bash
 python3 -m venv .venv # Run to create the environment
 source .venv/bin/activate # Run to start the environment

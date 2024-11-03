@@ -159,25 +159,30 @@ async def get_generic_tables(tab, dynamic_fields, startingYear=1970) -> pd.DataF
 
 async def get_data(key, tab, dynamic_fields, service):
     data_frame = None
+    db = None
     try:
-        with get_session_local() as db:
-            print(f"Start get_{key} web scraping...")
+        db = next(get_session_local())
 
-            data_frame = await get_generic_tables(tab=tab, dynamic_fields=dynamic_fields)
+        print(f"Start get_{key} web scraping...")
 
-            if data_frame is None or data_frame.empty:
-                print("Data not found")
-                return
-                
-            print(f"Update data on {key} database...")
-            await asyncio.to_thread(service.delete_documents, db)
-            await asyncio.to_thread(service.insert_many_documents, db, data_frame.to_dict(orient='records'))
+        data_frame = await get_generic_tables(tab=tab, dynamic_fields=dynamic_fields)
 
-            print(f"Finish get_{key} web scraping...")
+        if data_frame is None or data_frame.empty:
+            print("Data not found")
+            return
+            
+        print(f"Update data on {key} database...")
+        await asyncio.to_thread(service.delete_documents, db)
+        await asyncio.to_thread(service.insert_many_documents, db, data_frame.to_dict(orient='records'))
+
+        db.close()
+        print(f"Finish get_{key} web scraping...")
     except Exception as e:
         print(f"Error to scrape get_{key} data: {e}")
     finally:
         data_frame = None
+        if db is not None:
+            db.close()
 
 async def get_productions():
     await get_data(
