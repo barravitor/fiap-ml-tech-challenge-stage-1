@@ -6,6 +6,7 @@ This document provides an overview of the API routes implemented in the FastAPI 
 - [Authentication Routes](#authentication-routes)
 - [Data Retrieval Routes](#data-retrieval-routes)
 - [Error Handling](#error-handling)
+- [Flowchart](#flowchart)
 
 ## Authentication Routes
 
@@ -95,3 +96,5 @@ The API uses standard HTTP status codes to indicate the success or failure of re
 ## Usage
 To use the API, make sure to include an Authorization header with the bearer token received upon successful login or registration in requests to protected endpoints.
 
+## Flowchart
+<img src="./flowchart_api.png" style="background-color: #fff; padding: 4px">

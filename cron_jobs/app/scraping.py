@@ -5,19 +5,19 @@ from .services.scrape_service import get_productions, get_processingn, get_comme
 
 async def start_scrape_in_parabellum():
     await asyncio.gather(
-        get_productions(),
-        get_processingn(),
         get_commercialization(),
-        get_importation(),
         get_exportation(),
+        get_importation(),
+        get_processingn(),
+        get_productions(),
     )
 
 async def start_scrape():
-    await get_productions(),
-    await get_processingn(),
     await get_commercialization(),
-    await get_importation(),
     await get_exportation(),
+    await get_importation(),
+    await get_processingn(),
+    await get_productions(),
 
 if __name__ == "__main__":
     create_table()

@@ -1,10 +1,18 @@
-## Cron Job Documentation
+# Cron Job Documentation
 
-### Overview
+## Table of Contents
+- [Overview](#overview)
+- [Functionality](#functionality)
+- [Schedule](#schedule)
+- [Execution](#execution)
+- [Flowchart](#flowchart)
+- [Conclusion](#conclusion)
+
+## Overview
 
 This cron job is designed to automate the process of data extraction from **Site embrapa** using the powerful **Selenium** library. The primary objective is to access various sections of the website, specifically the tabs for **Production**, **Processing**, **Commercialization**, **Importation**, and **Exportation**. 
 
-### Functionality
+## Functionality
 
 The cron job performs the following tasks:
 
@@ -14,17 +22,20 @@ The cron job performs the following tasks:
 
 3. **Data Storage**: Once the data is extracted, it is structured and sent to a **PostgreSQL** database. This ensures that the data is stored securely and can be accessed efficiently for future queries and analysis.
 
-### Schedule
+## Schedule
 
 The cron job is scheduled to run **every Saturday at 3:00 AM**. 
 
-### Execution
+## Execution
 
 To execute the script manually, use the following command in the terminal:
 
 ```bash
 python3 -m cron_jobs.app.scraping
 ```
+
+## Flowchart
+<img src="./flowchart_scrape.png" style="background-color: #fff; padding: 4px">
 
 ### Conclusion
 
