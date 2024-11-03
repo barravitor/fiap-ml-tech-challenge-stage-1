@@ -1,0 +1,248 @@
+{
+	"info": {
+		"_postman_id": "e6ecb6c0-d65a-420c-ae28-743b2ef51310",
+		"name": "FIAP ML API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4051020"
+	},
+	"item": [
+		{
+			"name": "Embrapa",
+			"item": [
+				{
+					"name": "Productions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{fiap_api_authorization}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{fiap_api_domain}}/embrapa/productions",
+							"host": [
+								"{{fiap_api_domain}}"
+							],
+							"path": [
+								"embrapa",
+								"productions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Processingn",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{fiap_api_authorization}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{fiap_api_domain}}/embrapa/processingn",
+							"host": [
+								"{{fiap_api_domain}}"
+							],
+							"path": [
+								"embrapa",
+								"processingn"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Commercialization",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{fiap_api_authorization}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{fiap_api_domain}}/embrapa/commercialization",
+							"host": [
+								"{{fiap_api_domain}}"
+							],
+							"path": [
+								"embrapa",
+								"commercialization"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Importation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{fiap_api_authorization}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{fiap_api_domain}}/embrapa/importation",
+							"host": [
+								"{{fiap_api_domain}}"
+							],
+							"path": [
+								"embrapa",
+								"importation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Exportation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{fiap_api_authorization}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{fiap_api_domain}}/embrapa/exportation",
+							"host": [
+								"{{fiap_api_domain}}"
+							],
+							"path": [
+								"embrapa",
+								"exportation"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"User Name\",\r\n    \"email\": \"email@email.com\",\r\n    \"password\": \"123456789\",\r\n    \"password_confirm\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{fiap_api_domain}}/auth/register",
+							"host": [
+								"{{fiap_api_domain}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"email@email.com\",\r\n    \"password\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{fiap_api_domain}}/auth/login",
+							"host": [
+								"{{fiap_api_domain}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Docs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{fiap_api_domain}}/docs",
+					"host": [
+						"{{fiap_api_domain}}"
+					],
+					"path": [
+						"docs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Docs Redoc",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{fiap_api_domain}}/redoc",
+					"host": [
+						"{{fiap_api_domain}}"
+					],
+					"path": [
+						"redoc"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

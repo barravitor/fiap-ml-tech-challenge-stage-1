@@ -35,6 +35,22 @@ def save_data_on_cache(data, directory_path, file_name):
     df = pd.DataFrame(data[0:], columns=data[0])
     df.to_csv(f"{directory_path}/{file_name}", index=False, header=True, sep=',', encoding='utf-8')
 
+def load_and_return_data(file_name, filters):
+    df = pd.read_csv(f"./tmp/{file_name}")
+
+    df = get_data_filtered(df, filters)
+    
+    buffer = io.StringIO()
+
+    df.to_csv(buffer, index=False)
+    buffer.seek(0)
+
+    return StreamingResponse(
+        iter([buffer.getvalue()]),
+        media_type="text/csv",
+        headers={ "Content-Disposition": f"attachment; filename={file_name}" },
+    )
+
 @embrapa_router.get("/productions", response_class=StreamingResponse,
     responses={
         200: {
@@ -95,20 +111,7 @@ async def get_productions(filters: FiltersSchema = Depends(), current_user: dict
 
             save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
-        df = pd.read_csv(f"./tmp/{file_name}")
-
-        df = get_data_filtered(df, filters)
-        
-        buffer = io.StringIO()
-
-        df.to_csv(buffer, index=False)
-        buffer.seek(0)
-
-        return StreamingResponse(
-            iter([buffer.getvalue()]),
-            media_type="text/csv",
-            headers={ "Content-Disposition": f"attachment; filename={file_name}" },
-        )
+        return load_and_return_data(file_name, filters)
     except httpx.HTTPStatusError as exc:
         raise HTTPException(status_code=exc.response.status_code, detail=str(exc))
     except Exception as e:
@@ -174,20 +177,7 @@ async def get_processingn(filters: FiltersSchema = Depends(), current_user: dict
 
             save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
-        df = pd.read_csv(f"./tmp/{file_name}")
-
-        df = get_data_filtered(df, filters)
-        
-        buffer = io.StringIO()
-
-        df.to_csv(buffer, index=False)
-        buffer.seek(0)
-
-        return StreamingResponse(
-            iter([buffer.getvalue()]),
-            media_type="text/csv",
-            headers={ "Content-Disposition": f"attachment; filename={file_name}" },
-        )
+        return load_and_return_data(file_name, filters)
     except httpx.HTTPStatusError as exc:
         raise HTTPException(status_code=exc.response.status_code, detail=str(exc))
     except Exception as e:
@@ -253,20 +243,7 @@ async def get_commercialization(filters: FiltersSchema = Depends(), current_user
 
             save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
-        df = pd.read_csv(f"./tmp/{file_name}")
-
-        df = get_data_filtered(df, filters)
-        
-        buffer = io.StringIO()
-
-        df.to_csv(buffer, index=False)
-        buffer.seek(0)
-
-        return StreamingResponse(
-            iter([buffer.getvalue()]),
-            media_type="text/csv",
-            headers={ "Content-Disposition": f"attachment; filename={file_name}" },
-        )
+        return load_and_return_data(file_name, filters)
     except httpx.HTTPStatusError as exc:
         raise HTTPException(status_code=exc.response.status_code, detail=str(exc))
     except Exception as e:
@@ -332,20 +309,7 @@ async def get_importation(filters: FiltersSchema = Depends(), current_user: dict
 
             save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
-        df = pd.read_csv(f"./tmp/{file_name}")
-
-        df = get_data_filtered(df, filters)
-        
-        buffer = io.StringIO()
-
-        df.to_csv(buffer, index=False)
-        buffer.seek(0)
-
-        return StreamingResponse(
-            iter([buffer.getvalue()]),
-            media_type="text/csv",
-            headers={ "Content-Disposition": f"attachment; filename={file_name}" },
-        )
+        return load_and_return_data(file_name, filters)
     except httpx.HTTPStatusError as exc:
         raise HTTPException(status_code=exc.response.status_code, detail=str(exc))
     except Exception as e:
@@ -411,20 +375,7 @@ async def get_exportation(filters: FiltersSchema = Depends(), current_user: dict
             
             save_data_on_cache(data=data, directory_path="./tmp", file_name=file_name)
 
-        df = pd.read_csv(f"./tmp/{file_name}")
-
-        df = get_data_filtered(df, filters)
-        
-        buffer = io.StringIO()
-
-        df.to_csv(buffer, index=False)
-        buffer.seek(0)
-
-        return StreamingResponse(
-            iter([buffer.getvalue()]),
-            media_type="text/csv",
-            headers={ "Content-Disposition": f"attachment; filename={file_name}" },
-        )
+        return load_and_return_data(file_name, filters)
     except httpx.HTTPStatusError as exc:
         raise HTTPException(status_code=exc.response.status_code, detail=str(exc))
     except Exception as e:
